@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Happy New Year and Merry Christmas</title>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="/images/christmas.ico" type="image/x-icon">
+        <link href="styles/index.css" rel="stylesheet" type="text/css">
+         <link href="styles/tree.css" rel="stylesheet" type="text/css">
+         <link href="styles/CountDown.css" rel="stylesheet" type="text/css">
+             <link href="styles/player.css" rel="stylesheet" type="text/css">
+             <link href="styles/snowman2.css" rel="stylesheet" type="text/css">
+             <link href="styles/bear.css" rel="stylesheet" type="text/css">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   </head>
+       
+   
+   
+   
+   <body onload="init();" >
+           <script src="scripts/index.js"></script>  
+           <script src="scripts/ThreeCanvas.js"></script>
+           <script src="scripts/Snow.js"></script>
+           
+          
+       
+           <script>
+   
+               var SCREEN_WIDTH = window.innerWidth;
+               var SCREEN_HEIGHT = window.innerHeight;
+   
+               var container;
+   
+               var particle;
+   
+               var camera;
+               var scene;
+               var renderer;
+   
+               var mouseX = 0;
+               var mouseY = 0;
+   
+               var windowHalfX = window.innerWidth / 2;
+               var windowHalfY = window.innerHeight / 2;
+               
+               var particles = []; 
+               var particleImage = new Image();//THREE.ImageUtils.loadTexture( "img/ParticleSmoke.png" );
+               particleImage.src = '../images/ParticleSmoke.png'; 
+   
+           
+           
+               function init() {
+   
+                   container = document.createElement('div');
+                   document.body.appendChild(container);
+   
+                   camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000 );
+                   camera.position.z = 1000;
+   
+                   scene = new THREE.Scene();
+                   scene.add(camera);
+                       
+                   renderer = new THREE.CanvasRenderer();
+                   renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                   var material = new THREE.ParticleBasicMaterial( { map: new THREE.Texture(particleImage) } );
+                       
+                   for (var i = 0; i < 500; i++) {
+   
+                       particle = new Particle3D( material);
+                       particle.position.x = Math.random() * 2000 - 1000;
+                       particle.position.y = Math.random() * 2000 - 1000;
+                       particle.position.z = Math.random() * 2000 - 1000;
+                       particle.scale.x = particle.scale.y =  1;
+                       scene.add( particle );
+                       
+                       particles.push(particle); 
+                   }
+   
+                   container.appendChild( renderer.domElement );
+   
+       
+                   document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+                   document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+                   document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+                   
+                   setInterval( loop, 1000 / 60 );
+                   
+               }
+               
+               function onDocumentMouseMove( event ) {
+   
+                   mouseX = event.clientX - windowHalfX;
+                   mouseY = event.clientY - windowHalfY;
+               }
+   
+               function onDocumentTouchStart( event ) {
+   
+                   if ( event.touches.length == 1 ) {
+   
+                       event.preventDefault();
+   
+                       mouseX = event.touches[ 0 ].pageX - windowHalfX;
+                       mouseY = event.touches[ 0 ].pageY - windowHalfY;
+                   }
+               }
+   
+               function onDocumentTouchMove( event ) {
+   
+                   if ( event.touches.length == 1 ) {
+   
+                       event.preventDefault();
+   
+                       mouseX = event.touches[ 0 ].pageX - windowHalfX;
+                       mouseY = event.touches[ 0 ].pageY - windowHalfY;
+                   }
+               }
+   
+               //
+   
+               function loop() {
+   
+               for(var i = 0; i<particles.length; i++)
+                   {
+   
+                       var particle = particles[i]; 
+                       particle.updatePhysics(); 
+       
+                       with(particle.position)
+                       {
+                           if(y<-1000) y+=2000; 
+                           if(x>1000) x-=2000; 
+                           else if(x<-1000) x+=2000; 
+                           if(z>1000) z-=2000; 
+                           else if(z<-1000) z+=2000; 
+                       }				
+                   }
+               
+                   camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+                   camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+                   camera.lookAt(scene.position); 
+                   renderer.render( scene, camera );
+               }
+   
+   
+           </script>
+
+     
+         <div id="santa" style="left: 602.37px; top: 80px; transform: scaleX(-1);"></div>
+         <script src="scripts/santa.js"></script>  
+       
+   
+
+        
+       <script src="scripts/CountDown.js"></script>
+
+    
+        <div class="newyear">
+        <div id="countdown"></div>
+       </div>
+
+       <script src="scripts/audioPlayer.js"></script>
+       <script src="scripts/santavoice.js"></script>
+   
+       <script>
+         setTimeout(santaHohoho1, 9000);
+         setTimeout(santaHohoho, 28000);
+       </script>
+
+    
+       
+       <iframe  src="music/maryCrist.mp3" allow="autoplay" class="audio" id="audio" type="audio/mpeg" type="audio/mp3"></iframe>
+
+        
+  
+
+  <div class="snowman" style="text-align:right"> 
+  <div class="buttons b1"> </div>
+  <div class="buttons b2"> </div>
+  <div class="buttons b3"> </div>
+  <div class="buttons b4"> </div>
+  <div class="buttons b5"> </div>
+  <div class="mouth">
+    <span class="m m1"> </span> 
+    <span class="m m2"> </span> 
+    <span class="m m3"> </span> 
+    <span class="m m4"> </span> 
+    <span class="m m4"> </span>
+  </div>
+  <div class="nose"> </div>
+  <div class="hat">
+  </div>
+
+
+<script src="scripts/tree.js"></script>
+
+
+
+
+</body>
+</html>
+
+  
